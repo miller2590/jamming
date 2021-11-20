@@ -8,6 +8,7 @@ class Track extends React.Component {
     this.removeTrack = this.removeTrack.bind(this);
   }
 
+  // Sets the state of the button to add or remove
   renderAction() {
     if (this.props.isRemoval) {
       return (
