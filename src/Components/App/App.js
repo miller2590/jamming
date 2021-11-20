@@ -7,6 +7,8 @@ import Playlist from "../Playlist/Playlist";
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
     this.state = {
       // Search Results State
       searchResults: [
@@ -51,6 +53,25 @@ class App extends React.Component {
     };
   }
 
+  // If track is not in playlist it adds Track to Playlist
+  addTrack(track) {
+    let myTracks = this.state.playlistTracks;
+    if (myTracks.find((savedTrack) => savedTrack.id === track.id)) {
+      return;
+    }
+
+    myTracks.push(track);
+    this.setState({ playlistTracks: myTracks });
+  }
+
+  // Removes a track from Playlist if
+  removeTrack(track) {
+    let mytracks = this.state.playlistTracks;
+    let updatedPlaylist = mytracks.filter((tracks) => tracks.id !== track.id);
+
+    this.setState({ playlistTracks: updatedPlaylist });
+  }
+
   render() {
     return (
       <div>
@@ -60,10 +81,14 @@ class App extends React.Component {
         <div className="App">
           <SearchBar />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} />
+            <SearchResults
+              searchResults={this.state.searchResults}
+              onAdd={this.addTrack}
+            />
             <Playlist
               playlistName={this.state.playlistName}
               playlistTracks={this.state.playlistTracks}
+              onRemove={this.removeTrack}
             />
           </div>
         </div>
